@@ -23,7 +23,8 @@ inputsize=size(inputsample);
 
 
 
-for final_sample_index=1:str2num(numPoints) %numPoints here means number of input points
+%for final_sample_index=1:str2num(numPoints) %numPoints here means number of input points
+for final_sample_index=1:inputsize(2) %numPoints here means number of input points
     final_sample_index
   eval(['yfin(',num2str(final_sample_index),',1)=sim(net,inputsample(1:end,',num2str(final_sample_index),'));' ]); %CHANGE?TO 1:4
   final_sample_index=final_sample_index+1;
