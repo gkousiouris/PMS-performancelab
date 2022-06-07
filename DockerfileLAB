@@ -1,0 +1,71 @@
+FROM markuskramer/octave3
+USER root
+RUN apt update
+RUN apt install -y curl
+RUN apt install -y liboctave-dev  
+RUN apt-get install -y build-essential
+RUN apt-get install -y units
+USER joe
+RUN curl --version
+RUN curl -L https://sourceforge.net/projects/octave/files/Octave%20Forge%20Packages/Individual%20Package%20Releases/nnet-0.1.13.tar.gz/download > /home/joe/nnet-0.1.13.tar.gz
+RUN curl -L https://sourceforge.net/projects/octave/files/Octave%20Forge%20Packages/Individual%20Package%20Releases/statistics-1.3.0.tar.gz/download > /home/joe/statistics-1.3.0.tar.gz
+RUN curl -L https://sourceforge.net/projects/octave/files/Octave%20Forge%20Packages/Individual%20Package%20Releases/ga-0.9.8.tar.gz/download > /home/joe/ga-0.9.8.tar.gz
+RUN curl -L https://sourceforge.net/projects/octave/files/Octave%20Forge%20Packages/Individual%20Package%20Releases/communications-1.1.0.tar.gz/download > /home/joe/communications-1.1.0.tar.gz
+RUN curl -L https://sourceforge.net/projects/octave/files/Octave%20Forge%20Packages/Individual%20Package%20Releases/signal-1.0.11.tar.gz/download > /home/joe/signal-1.0.11.tar.gz
+RUN curl -L https://sourceforge.net/projects/octave/files/Octave%20Forge%20Packages/Individual%20Package%20Releases/image-1.0.11.tar.gz/download > /home/joe/image-1.0.11.tar.gz
+RUN curl -L https://sourceforge.net/projects/octave/files/Octave%20Forge%20Packages/Individual%20Package%20Releases/optim-1.0.12.tar.gz/download > /home/joe/optim-1.0.12.tar.gz
+RUN curl -L https://sourceforge.net/projects/octave/files/Octave%20Forge%20Packages/Individual%20Package%20Releases/specfun-1.0.9.tar.gz/download > /home/joe/specfun-1.0.9.tar.gz
+RUN curl -L https://sourceforge.net/projects/octave/files/Octave%20Forge%20Packages/Individual%20Package%20Releases/miscellaneous-1.2.1.tar.gz/download > /home/joe/miscellaneous-1.2.1.tar.gz
+RUN curl -L https://sourceforge.net/projects/octave/files/Octave%20Forge%20Packages/Individual%20Package%20Releases/general-1.3.1.tar.gz/download > /home/joe/general-1.3.1.tar.gz
+
+RUN ls
+RUN ls -l
+
+RUN pwd
+
+RUN pwd
+RUN curl http://bigdatastack-tasks.ds.unipi.gr/gkousiou/adw/-/raw/master/adwdocker/modelling/octavelaunch > /home/joe/octavelaunch
+RUN pwd
+RUN octave /home/joe/octavelaunch
+RUN pwd
+RUN curl http://bigdatastack-tasks.ds.unipi.gr/gkousiou/adw/-/raw/master/adwdocker/modelling/scripts/createmodel.m > /home/joe/createmodel.m
+RUN curl http://bigdatastack-tasks.ds.unipi.gr/gkousiou/adw/-/raw/master/adwdocker/modelling/scripts/mapminmax.m > /home/joe/mapminmax.m
+RUN curl http://bigdatastack-tasks.ds.unipi.gr/gkousiou/adw/-/raw/master/adwdocker/modelling/scripts/normalize.m > /home/joe/normalize.m
+RUN curl http://bigdatastack-tasks.ds.unipi.gr/gkousiou/adw/-/raw/master/adwdocker/modelling/scripts/denormalize.m > /home/joe/denormalize.m
+RUN ls -l
+RUN ls -l
+RUN curl http://bigdatastack-tasks.ds.unipi.gr/gkousiou/adw/-/raw/master/adwdocker/modelling/scripts/nnscript.m > /home/joe/nnscript.m
+
+RUN curl http://bigdatastack-tasks.ds.unipi.gr/gkousiou/adw/-/raw/master/adwdocker/modelling/scripts/modelauncher.m > /home/joe/modelauncher
+RUN curl http://bigdatastack-tasks.ds.unipi.gr/gkousiou/adw/-/raw/master/adwdocker/modelling/scripts/predlauncher.m > /home/joe/predlauncher.m
+RUN curl http://bigdatastack-tasks.ds.unipi.gr/gkousiou/adw/-/raw/master/adwdocker/modelling/scripts/getPrediction.m > /home/joe/getPrediction.m
+
+
+USER root 
+RUN ls
+RUN mkdir /models
+RUN mkdir /models/images
+RUN chown -R joe /models
+RUN chmod -R +rw /models
+RUN apt-get install wget
+USER joe
+#install minio client
+
+RUN wget https://dl.min.io/client/mc/release/linux-amd64/mc
+RUN chmod +x mc
+RUN ./mc alias set minio http://10.100.59.182:9000 newacc minio@hua2021
+RUN pwd
+
+RUN curl http://bigdatastack-tasks.ds.unipi.gr/gkousiou/adw/-/raw/master/adwdocker/modelling/dockerLAB-entrypoint-octave.sh > /home/joe/dockerLAB-entrypoint-octave.sh
+RUN chmod +x /home/joe/dockerLAB-entrypoint-octave.sh
+
+RUN touch /models/test
+VOLUME ["/models"]
+
+RUN ls -l /models
+CMD ["/home/joe/dockerLAB-entrypoint-octave.sh"]
+
+#CMD ["octave /home/joe/octavelaunch"]
+
+
+
